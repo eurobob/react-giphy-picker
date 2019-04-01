@@ -78,43 +78,7 @@ export default class extends Component {
 
   componentDidMount() {
     this.searchGifs();
-    // this.loadTrendingGifs();
   }
-
-  loadTrendingGifs = offset => {
-    const { giphyTrendingUrl, page, loading } = this.state;
-    if (loading) {
-      return;
-    }
-
-    let url = giphyTrendingUrl;
-    if (offset) {
-      url += "&offset=" + offset;
-    }
-
-    this.setState({
-      loading: true
-    });
-    fetch(url, {
-      method: "get"
-    })
-      .then(res => res.json())
-      .then(response => {
-        let gifs = response.data.map(g => g.images);
-        let hasMore = true;
-        const { total_count, count, offset } = response.pagination;
-        if (total_count <= count + offset) {
-          hasMore = false;
-        }
-
-        this.setState({
-          gifs: this.state.gifs.concat(gifs),
-          page: page + 1,
-          loading: false,
-          hasMore: hasMore
-        });
-      });
-  };
 
   searchGifs = offset => {
     const { giphySearchUrl, searchValue, page, loading } = this.state;
