@@ -137,11 +137,7 @@ export default class extends Component {
       page: 0,
       gifs: []
     });
-    if (value) {
-      this.searchGifs();
-    } else {
-      this.loadTrendingGifs();
-    }
+    this.searchGifs();
   };
 
   onKeyDown = event => {
@@ -159,11 +155,7 @@ export default class extends Component {
     const { searchValue, page } = this.state;
     let nextPage = page + 1;
     let offset = (Number(nextPage) - 1) * 25;
-    if (searchValue) {
-      this.searchGifs(offset);
-    } else {
-      this.loadTrendingGifs(offset);
-    }
+    this.searchGifs(offset);
   };
 
   focusToggle = focused => {
