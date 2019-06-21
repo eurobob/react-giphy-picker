@@ -97,6 +97,7 @@ export default class extends Component {
     }
 
     let url = giphySearchUrl + "&q=" + query;
+    // url += "&limit=1";
     if (offset) {
       url += "&offset=" + offset;
     }
@@ -126,7 +127,9 @@ export default class extends Component {
   };
 
   onGiphySelect = gif => {
-    this.props.onSelected(gif);
+    Promise.resolve(this.props.onSelected(gif)).then(() => {
+      this.focusToggle(false);
+    });
   };
 
   onSearchChange = event => {
@@ -204,12 +207,12 @@ export default class extends Component {
                             key={j}
                             style={{
                               width: "100%",
-                              // height: Number(g.fixed_width.height),
+                              height: Number(g.fixed_width.height),
                               backgroundColor: this.props.imagePlaceholderColor
                             }}
                             src={gifUrl}
-                            onClick={() => {
-                              console.log(g);
+                            role="presentation"
+                            onMouseDown={() => {
                               this.onGiphySelect(g);
                             }}
                           />
@@ -258,6 +261,7 @@ const GiphyWrapper = styled.div`
   z-index: 99;
   position: ${({ modal }) => (modal ? "absolute" : "relative")};
   display: ${({ visible }) => (visible ? "block" : "none")};
+  user-select: none;
 `;
 
 const GiphyWrapperRow = styled.div`
